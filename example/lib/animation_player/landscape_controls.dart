@@ -5,10 +5,10 @@ import 'package:provider/provider.dart';
 
 class AnimationPlayerLandscapeControls extends StatelessWidget {
   const AnimationPlayerLandscapeControls(
-      {Key key, @required this.animationPlayerDataManager})
+      {Key? key, required this.animationPlayerDataManager})
       : super(key: key);
 
-  final AnimationPlayerDataManager animationPlayerDataManager;
+  final AnimationPlayerDataManager? animationPlayerDataManager;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class AnimationPlayerLandscapeControls extends StatelessWidget {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      (animationPlayerDataManager).playNextVideo();
+                      animationPlayerDataManager!.playNextVideo();
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +67,7 @@ class AnimationPlayerLandscapeControls extends StatelessWidget {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        (animationPlayerDataManager).getCurrentVideoTitle() ??
+                        animationPlayerDataManager!.getCurrentVideoTitle() ??
                             '',
                         style: TextStyle(color: Colors.white),
                       ),

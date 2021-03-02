@@ -5,21 +5,21 @@ import 'package:video_player/video_player.dart';
 
 class AnimationPlayerDataManager {
   bool inAnimation = false;
-  final FlickManager flickManager;
-  final List items;
+  final FlickManager? flickManager;
+  final List? items;
   int currentIndex = 0;
-  Timer videoChangeTimer;
+  late Timer videoChangeTimer;
 
   AnimationPlayerDataManager(this.flickManager, this.items);
 
-  playNextVideo([Duration duration]) {
-    if (currentIndex >= items.length - 1) {
+  playNextVideo([Duration? duration]) {
+    if (currentIndex >= items!.length - 1) {
       currentIndex = -1;
     }
 
-    String nextVideoUrl = items[currentIndex + 1]['trailer_url'];
+    String? nextVideoUrl = items![currentIndex + 1]['trailer_url'];
 
-    if (currentIndex != items.length - 1) {
+    if (currentIndex != items!.length - 1) {
       if (duration != null) {
         videoChangeTimer = Timer(duration, () {
           currentIndex++;
@@ -28,8 +28,8 @@ class AnimationPlayerDataManager {
         currentIndex++;
       }
 
-      flickManager.handleChangeVideo(
-          VideoPlayerController.network(nextVideoUrl),
+      flickManager!.handleChangeVideo(
+          VideoPlayerController.network(nextVideoUrl!),
           videoChangeDuration: duration, timerCancelCallback: (bool playNext) {
         videoChangeTimer.cancel();
         if (playNext) {
@@ -39,27 +39,27 @@ class AnimationPlayerDataManager {
     }
   }
 
-  String getCurrentVideoTitle() {
+  String? getCurrentVideoTitle() {
     if (currentIndex != -1) {
-      return items[currentIndex]['title'];
+      return items![currentIndex]['title'];
     } else {
-      return items[items.length - 1]['title'];
+      return items![items!.length - 1]['title'];
     }
   }
 
-  String getNextVideoTitle() {
-    if (currentIndex != items.length - 1) {
-      return items[currentIndex + 1]['title'];
+  String? getNextVideoTitle() {
+    if (currentIndex != items!.length - 1) {
+      return items![currentIndex + 1]['title'];
     } else {
-      return items[0]['title'];
+      return items![0]['title'];
     }
   }
 
-  String getCurrentPoster() {
+  String? getCurrentPoster() {
     if (currentIndex != -1) {
-      return items[currentIndex]['image'];
+      return items![currentIndex]['image'];
     } else {
-      return items[items.length - 1]['image'];
+      return items![items!.length - 1]['image'];
     }
   }
 }

@@ -2,23 +2,23 @@ import 'package:example/animation_player/portrait_video_controls.dart';
 import 'package:example/utils/mock_data.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widgets/flutter_widgets.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:video_player/video_player.dart';
 
 import './data_manager.dart';
 import 'landscape_controls.dart';
 
 class AnimationPlayer extends StatefulWidget {
-  AnimationPlayer({Key key}) : super(key: key);
+  AnimationPlayer({Key? key}) : super(key: key);
 
   @override
   _AnimationPlayerState createState() => _AnimationPlayerState();
 }
 
 class _AnimationPlayerState extends State<AnimationPlayer> {
-  FlickManager flickManager;
-  AnimationPlayerDataManager dataManager;
-  List items = mockData['items'];
+  FlickManager? flickManager;
+  AnimationPlayerDataManager? dataManager;
+  List? items = mockData['items'];
   bool _pauseOnTap = true;
 
   @override
@@ -26,8 +26,8 @@ class _AnimationPlayerState extends State<AnimationPlayer> {
     super.initState();
     flickManager = FlickManager(
       videoPlayerController:
-          VideoPlayerController.network(items[0]['trailer_url']),
-      onVideoEnd: () => dataManager.playNextVideo(
+          VideoPlayerController.network(items![0]['trailer_url']),
+      onVideoEnd: () => dataManager!.playNextVideo(
         Duration(seconds: 5),
       ),
     );
@@ -37,7 +37,7 @@ class _AnimationPlayerState extends State<AnimationPlayer> {
 
   @override
   void dispose() {
-    flickManager.dispose();
+    flickManager!.dispose();
     super.dispose();
   }
 
@@ -47,9 +47,9 @@ class _AnimationPlayerState extends State<AnimationPlayer> {
       key: ObjectKey(flickManager),
       onVisibilityChanged: (visibility) {
         if (visibility.visibleFraction == 0 && this.mounted) {
-          flickManager.flickControlManager.autoPause();
+          flickManager!.flickControlManager!.autoPause();
         } else if (visibility.visibleFraction == 1) {
-          flickManager.flickControlManager.autoResume();
+          flickManager!.flickControlManager!.autoResume();
         }
       },
       child: Container(
@@ -57,7 +57,7 @@ class _AnimationPlayerState extends State<AnimationPlayer> {
           children: <Widget>[
             Expanded(
               child: FlickVideoPlayer(
-                flickManager: flickManager,
+                flickManager: flickManager!,
                 flickVideoWithControls: AnimationPlayerPortraitVideoControls(
                     dataManager: dataManager, pauseOnTap: _pauseOnTap),
                 flickVideoWithControlsFullscreen: FlickVideoWithControls(
@@ -69,7 +69,7 @@ class _AnimationPlayerState extends State<AnimationPlayer> {
             ),
             RaisedButton(
               child: Text('Next video'),
-              onPressed: () => dataManager.playNextVideo(),
+              onPressed: () => dataManager!.playNextVideo(),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,

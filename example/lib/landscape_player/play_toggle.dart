@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class LandscapePlayToggle extends StatelessWidget {
-  const LandscapePlayToggle({Key key}) : super(key: key);
+  const LandscapePlayToggle({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

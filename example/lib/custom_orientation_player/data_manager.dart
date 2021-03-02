@@ -7,28 +7,28 @@ class DataManager {
   DataManager({this.flickManager, this.urls});
 
   int currentPlaying = 0;
-  final FlickManager flickManager;
-  final List<String> urls;
+  final FlickManager? flickManager;
+  final List<String?>? urls;
 
-  Timer videoChangeTimer;
+  Timer? videoChangeTimer;
 
-  String getNextVideo() {
+  String? getNextVideo() {
     currentPlaying++;
-    return urls[currentPlaying];
+    return urls![currentPlaying];
   }
 
   bool hasNextVideo() {
-    return currentPlaying != urls.length - 1;
+    return currentPlaying != urls!.length - 1;
   }
 
   bool hasPreviousVideo() {
     return currentPlaying != 0;
   }
 
-  skipToNextVideo([Duration duration]) {
+  skipToNextVideo([Duration? duration]) {
     if (hasNextVideo()) {
-      flickManager.handleChangeVideo(
-          VideoPlayerController.network(urls[currentPlaying + 1]),
+      flickManager!.handleChangeVideo(
+          VideoPlayerController.network(urls![currentPlaying + 1]!),
           videoChangeDuration: duration);
 
       currentPlaying++;
@@ -38,16 +38,16 @@ class DataManager {
   skipToPreviousVideo() {
     if (hasPreviousVideo()) {
       currentPlaying--;
-      flickManager.handleChangeVideo(
-          VideoPlayerController.network(urls[currentPlaying]));
+      flickManager!.handleChangeVideo(
+          VideoPlayerController.network(urls![currentPlaying]!));
     }
   }
 
-  cancelVideoAutoPlayTimer({bool playNext}) {
+  cancelVideoAutoPlayTimer({required bool playNext}) {
     if (playNext != true) {
       currentPlaying--;
     }
 
-    flickManager.flickVideoManager.cancelVideoAutoPlayTimer(playNext: playNext);
+    flickManager!.flickVideoManager!.cancelVideoAutoPlayTimer(playNext: playNext);
   }
 }
